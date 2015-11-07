@@ -97,15 +97,13 @@ public class weapon : MonoBehaviour {
 			GameObject shootObject = GameObject.Instantiate (this.shootPrefabs) as GameObject;
 			this._directionShoot.Normalize();
 			shootObject.transform.position = new Vector3(pos.x + this._directionShoot.x * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z );
-<<<<<<< HEAD
 			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed * 2;
+			shootObject.transform.Rotate(this.transform.parent.localEulerAngles + new Vector3(0.0f, 0.0f, -90.0f));
+			
 			if (this.amo != 0x2A)
 				amo--;
-=======
 			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
-			shootObject.transform.Rotate(this.transform.parent.localEulerAngles + new Vector3(0.0f, 0.0f, -90.0f));
 			amo--;
->>>>>>> 566f3392ae39bb46f181d72de1063dac6ef954ae
 		}
 	}
 	
