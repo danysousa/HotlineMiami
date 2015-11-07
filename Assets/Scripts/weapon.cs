@@ -75,6 +75,7 @@ public class weapon : MonoBehaviour {
 		this.GetComponent<SpriteRenderer> ().sprite = weaponEquip;
 		this._equiped = true;
 		gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
+		this._animate = false;
 	}
 
 	public void DesequipWeapon()
