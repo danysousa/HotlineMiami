@@ -19,7 +19,8 @@ public class shoot : MonoBehaviour {
 		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.zero);
 		if (hit)
 		{
-			GameObject.Destroy(this);
+			if (hit.collider.name != "Player" && hit.collider.name != this.name )
+				GameObject.Destroy(gameObject);
 		}
 	}
 }
