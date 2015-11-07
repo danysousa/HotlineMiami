@@ -8,6 +8,9 @@ public class weapon : MonoBehaviour {
 	public int				amo;
 	public float			speed;
 	public int				delay;
+	public AudioClip		fireClip;
+	public AudioClip		ejectClip;
+	public AudioClip		reloadClip;
 
 	private	Vector3			_positionMouseInWorld;
 	private	Vector3			_positionPlayerPrefabs;
@@ -72,6 +75,7 @@ public class weapon : MonoBehaviour {
 	
 	public void EquipWeapon()
 	{
+		this.GetComponent<AudioSource> ().PlayOneShot (reloadClip);
 		this.GetComponent<SpriteRenderer> ().sprite = weaponEquip;
 		this._equiped = true;
 		gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
@@ -81,26 +85,29 @@ public class weapon : MonoBehaviour {
 
 	public void DesequipWeapon()
 	{
+		this.GetComponent<AudioSource> ().PlayOneShot (ejectClip);
 		this.GetComponent<SpriteRenderer> ().sprite = this._weaponDesequip;
 		this._equiped = false;
 		this._animate = true;
 	}
 
-	public void Shoot()
+	public void Shoot(Vector3 direction)
 	{
-		if (this.amo > 0 && this._delay == 0)
+		if ((this.amo > 0 || this.amo == -0x2A) && this._delay == 0)
 		{
 			this._delay = delay;
-			this._positionMouseInWorld = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			this._positionMouseInWorld.z = 0.0f;
-	
+			this.GetComponent<AudioSource> ().PlayOneShot (fireClip);
 			Vector3 pos = this.transform.position;
-			this._directionShoot = new Vector3 (this._positionMouseInWorld.x - pos.x, this._positionMouseInWorld.y - pos.y, 0.0f);
+			this._directionShoot = new Vector3 (direction.x - pos.x, direction.y - pos.y, 0.0f);
 			GameObject shootObject = GameObject.Instantiate (this.shootPrefabs) as GameObject;
 			this._directionShoot.Normalize();
 			shootObject.transform.position = new Vector3(pos.x + this._directionShoot.x * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z );
-			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
+			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed * 2;
 			shootObject.transform.Rotate(this.transform.parent.localEulerAngles + new Vector3(0.0f, 0.0f, -90.0f));
+			
+			if (this.amo != 0x2A)
+				amo--;
+			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
 			amo--;
 		}
 	}
