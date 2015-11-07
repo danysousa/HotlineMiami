@@ -13,6 +13,7 @@ public class Player : Characters {
 		this.checkMove();
 		this.updateCharacters();
 		this.updatePlayer();
+		Camera.main.transform.position= new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
 	}
 
 	private void		updatePlayer()
