@@ -103,7 +103,6 @@ public class weapon : MonoBehaviour {
 			if (this.amo != 0x2A)
 				amo--;
 			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
-			amo--;
 		}
 	}
 	
