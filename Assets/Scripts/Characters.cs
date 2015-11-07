@@ -19,6 +19,6 @@ public class Characters : MonoBehaviour
 
 	protected void		updateCharacters()
 	{
-			this._rbody.velocity *= 0.9f;
+		this._rbody.velocity *= 0.9f;
 	}
 }
