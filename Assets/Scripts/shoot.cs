@@ -20,7 +20,7 @@ public class shoot : MonoBehaviour {
 		if (hit)
 		{
 			Debug.Log ("cllide:"+hit.collider.name);
-			if (hit.collider.name != "Player" && hit.collider.name != this.name )
+			if (hit.collider.gameObject.tag == "wall")
 				GameObject.Destroy(gameObject);
 		}
 	}
