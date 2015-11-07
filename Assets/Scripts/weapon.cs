@@ -84,21 +84,20 @@ public class weapon : MonoBehaviour {
 		this._equiped = false;
 	}
 
-	public void Shoot()
+	public void Shoot(Vector3 direction)
 	{
-		if (this.amo > 0 && this._delay == 0)
+		if ((this.amo > 0 || this.amo == -0x2A) && this._delay == 0)
 		{
 			this._delay = delay;
-			this._positionMouseInWorld = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			this._positionMouseInWorld.z = 0.0f;
-	
+
 			Vector3 pos = this.transform.position;
-			this._directionShoot = new Vector3 (this._positionMouseInWorld.x - pos.x, this._positionMouseInWorld.y - pos.y, 0.0f);
+			this._directionShoot = new Vector3 (direction.x - pos.x, direction.y - pos.y, 0.0f);
 			GameObject shootObject = GameObject.Instantiate (this.shootPrefabs) as GameObject;
 			this._directionShoot.Normalize();
 			shootObject.transform.position = new Vector3(pos.x + this._directionShoot.x * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z );
-			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
-			amo--;
+			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed * 2;
+			if (this.amo != 0x2A)
+				amo--;
 		}
 	}
 	

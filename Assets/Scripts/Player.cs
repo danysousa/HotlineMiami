@@ -56,7 +56,11 @@ public class Player : Characters {
 	private void		updateWeapon()
 	{
 		if (Input.GetMouseButton (0))
-			this.weapon.Shoot();
+		{
+			Vector3 positionMouseInWorld = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+			positionMouseInWorld.z = 0.0f;
+			this.weapon.Shoot(positionMouseInWorld);
+		}
 	}
 
 	private void		tryCatchWeapon()
