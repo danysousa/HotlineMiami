@@ -75,6 +75,7 @@ public class weapon : MonoBehaviour {
 		this.GetComponent<SpriteRenderer> ().sprite = weaponEquip;
 		this._equiped = true;
 		gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
+		this.GetComponent<SpriteRenderer>().color = this._colorSprite;
 		this._animate = false;
 	}
 
@@ -82,6 +83,7 @@ public class weapon : MonoBehaviour {
 	{
 		this.GetComponent<SpriteRenderer> ().sprite = this._weaponDesequip;
 		this._equiped = false;
+		this._animate = true;
 	}
 
 	public void Shoot()
