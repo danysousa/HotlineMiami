@@ -8,6 +8,9 @@ public class weapon : MonoBehaviour {
 	public int				amo;
 	public float			speed;
 	public int				delay;
+	public AudioClip		fireClip;
+	public AudioClip		ejectClip;
+	public AudioClip		reloadClip;
 
 	private	Vector3			_positionMouseInWorld;
 	private	Vector3			_positionPlayerPrefabs;
@@ -72,6 +75,7 @@ public class weapon : MonoBehaviour {
 	
 	public void EquipWeapon()
 	{
+		this.GetComponent<AudioSource> ().PlayOneShot (reloadClip);
 		this.GetComponent<SpriteRenderer> ().sprite = weaponEquip;
 		this._equiped = true;
 		gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
@@ -81,6 +85,7 @@ public class weapon : MonoBehaviour {
 
 	public void DesequipWeapon()
 	{
+		this.GetComponent<AudioSource> ().PlayOneShot (ejectClip);
 		this.GetComponent<SpriteRenderer> ().sprite = this._weaponDesequip;
 		this._equiped = false;
 		this._animate = true;
@@ -91,7 +96,7 @@ public class weapon : MonoBehaviour {
 		if ((this.amo > 0 || this.amo == -0x2A) && this._delay == 0)
 		{
 			this._delay = delay;
-
+			this.GetComponent<AudioSource> ().PlayOneShot (fireClip);
 			Vector3 pos = this.transform.position;
 			this._directionShoot = new Vector3 (direction.x - pos.x, direction.y - pos.y, 0.0f);
 			GameObject shootObject = GameObject.Instantiate (this.shootPrefabs) as GameObject;
