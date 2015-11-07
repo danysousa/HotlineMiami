@@ -55,6 +55,8 @@ public class Player : Characters {
 
 	private void		updateWeapon()
 	{
+		if (Input.GetMouseButton (0))
+			this.weapon.Shoot();
 	}
 
 	private void		tryCatchWeapon()

@@ -4,7 +4,6 @@ using System.Collections;
 public class weapon : MonoBehaviour {
 	
 	public GameObject		shootPrefabs;
-	public GameObject		playerPrefabs;
 	public Sprite			weaponEquip;
 	public int				amo;
 	public float			speed;
@@ -16,12 +15,19 @@ public class weapon : MonoBehaviour {
 	private int    			_delay;
 	private bool			_equiped;
 	private bool			_animate;
-	private int				_scaleUp;
+	private int				_scale;
+	private bool			_scaleUp;
+	private Sprite			_weaponDesequip;
+	private Color			_colorSprite;
 	void Start ()
 	{
 		this._delay = 0;
 		this._equiped = false;
 		this._animate = true;
+		this._scale = 0;
+		this._scaleUp = true;
+		this._weaponDesequip = this.GetComponent<SpriteRenderer> ().sprite;
+		this._colorSprite = this.GetComponent<SpriteRenderer> ().color;
 	}
 	
 
@@ -29,8 +35,6 @@ public class weapon : MonoBehaviour {
 	{
 		if (this._animate == true)
 			AnimationEvent ();
-		if (Input.GetMouseButton (0) && this.amo > 0 && this._delay == 0)
-			Shoot ();
 		if (this._delay > 0)
 		    this._delay--;
 		if (this._equiped)
@@ -42,12 +46,27 @@ public class weapon : MonoBehaviour {
 
 	void AnimationEvent()
 	{
-		if (this._scaleUp <= 20)
+		if (this._scale <= 6 && this._scaleUp)
 		{
-			
-//			transform.localScale += new Vector3 (flux * Time.deltaTime,flux * Time.deltaTime,flux * Time.deltaTime);
-//			flexout ++;
-			
+			this.transform.localScale += new Vector3 (0.1f, 0.1f, 0.0f) * 0.8f;
+			this._scale++;
+			if (this._scale > 3)
+				this.GetComponent<SpriteRenderer>().color = Color.grey;
+			else
+				this.GetComponent<SpriteRenderer>().color = this._colorSprite;
+			if (this._scale == 6)
+				this._scaleUp = false;
+		}
+		if (this._scale >= 0 && !this._scaleUp)
+		{
+			this.transform.localScale += new Vector3 (-0.1f, -0.1f, 0.0f) * 0.8f;
+			this._scale--;
+			if (this._scale < 3)
+				this.GetComponent<SpriteRenderer>().color = Color.grey;
+			else
+				this.GetComponent<SpriteRenderer>().color = this._colorSprite;
+			if (this._scale == 0)
+				this._scaleUp = true;
 		}
 	}
 	
@@ -56,26 +75,30 @@ public class weapon : MonoBehaviour {
 		this.GetComponent<SpriteRenderer> ().sprite = weaponEquip;
 		this._equiped = true;
 		gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
-
+		this._animate = false;
 	}
 
-	void DesequipWeapon()
+	public void DesequipWeapon()
 	{
+		this.GetComponent<SpriteRenderer> ().sprite = this._weaponDesequip;
+		this._equiped = false;
 	}
 
-	void Shoot()
+	public void Shoot()
 	{
-		if (Input.GetMouseButton (0) && this.amo > 0 && this._delay == 0)
+		if (this.amo > 0 && this._delay == 0)
 		{
 			this._delay = delay;
 			this._positionMouseInWorld = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			this._positionMouseInWorld.z = 0.0f;
+	
 			Vector3 pos = this.transform.position;
 			this._directionShoot = new Vector3 (this._positionMouseInWorld.x - pos.x, this._positionMouseInWorld.y - pos.y, 0.0f);
 			GameObject shootObject = GameObject.Instantiate (this.shootPrefabs) as GameObject;
 			this._directionShoot.Normalize();
-			shootObject.transform.position = new Vector3(pos.x + this._directionShoot.y * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z );
+			shootObject.transform.position = new Vector3(pos.x + this._directionShoot.x * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z );
 			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
+			amo--;
 		}
 	}
 	
