@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Test : MonoBehaviour {
+public class door : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -11,5 +11,10 @@ public class Test : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	void OnCollisionEnter2D(Collision2D element)
+	{
+		Debug.Log (element.gameObject.name);
 	}
 }
