@@ -2,16 +2,32 @@
 using System.Collections;
 
 public class Player : Characters {
-
+	
 	void Start ()
 	{
 		this.init();	
 	}
-
+	
 	void Update ()
 	{
 		this.checkMove();
 		this.updateCharacters();
+		this.updatePlayer();
+	}
+
+	private void		updatePlayer()
+	{
+		Vector3			tmp;
+		Quaternion		rotate;
+		float			ajuste = 1;
+
+		tmp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		tmp.Set(tmp.x - this.transform.position.x, tmp.y - this.transform.position.y, 0f);
+
+		if (tmp.x < 0f)
+			ajuste = -1;
+		tmp.Normalize();
+		this.transform.localRotation = Quaternion.Euler( 0f, 0f, 180 - ajuste * (Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot( tmp, new Vector3(0, 1f, 0f) ) ) ) );
 	}
 
 	private void		checkMove()
