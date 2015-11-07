@@ -5,7 +5,14 @@ public class Player : Characters {
 	
 	void Start ()
 	{
-		this.init();	
+		this.init();
+		if (this.weapon != null)
+		{
+			this.weapon.transform.SetParent(this.transform);
+			this.weapon.transform.position = new Vector3(0.2f, -0.05f, -2f);
+			this.weapon.transform.Rotate(new Vector3(0f, 0f, -2f));
+			this.weapon.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
+		}
 	}
 	
 	void Update ()
@@ -13,7 +20,9 @@ public class Player : Characters {
 		this.checkMove();
 		this.updateCharacters();
 		this.updatePlayer();
-		Camera.main.transform.position= new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
+	
+		if (this.weapon != null)
+			this.updateWeapon();
 	}
 
 	private void		updatePlayer()
@@ -29,6 +38,7 @@ public class Player : Characters {
 			ajuste = -1;
 		tmp.Normalize();
 		this.transform.localRotation = Quaternion.Euler( 0f, 0f, 180 - ajuste * (Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot( tmp, new Vector3(0, 1f, 0f) ) ) ) );
+		Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
 	}
 
 	private void		checkMove()
@@ -46,5 +56,11 @@ public class Player : Characters {
 
 		if (direction.magnitude > 0f)
 			this.move(direction);
+	}
+
+	private void		updateWeapon()
+	{
+//		this.weapon.transform.position = new Vector3(this.transform.position.x + 0.25f, this.transform.position.y, this.transform.position.z);
+//		this.weapon.transform.rotation = this.transform.rotation;
 	}
 }
