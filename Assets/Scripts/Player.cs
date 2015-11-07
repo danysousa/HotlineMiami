@@ -6,13 +6,6 @@ public class Player : Characters {
 	void Start ()
 	{
 		this.init();
-		if (this.weapon != null)
-		{
-			this.weapon.transform.SetParent(this.transform);
-			this.weapon.transform.position = new Vector3(0.2f, -0.05f, -2f);
-			this.weapon.transform.Rotate(new Vector3(0f, 0f, -2f));
-			this.weapon.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
-		}
 	}
 	
 	void Update ()
@@ -23,6 +16,8 @@ public class Player : Characters {
 	
 		if (this.weapon != null)
 			this.updateWeapon();
+		else
+			this.tryCatchWeapon();
 	}
 
 	private void		updatePlayer()
@@ -60,7 +55,29 @@ public class Player : Characters {
 
 	private void		updateWeapon()
 	{
-//		this.weapon.transform.position = new Vector3(this.transform.position.x + 0.25f, this.transform.position.y, this.transform.position.z);
-//		this.weapon.transform.rotation = this.transform.rotation;
+		if (Input.GetMouseButton (0))
+			this.weapon.Shoot();
+	}
+
+	private void		tryCatchWeapon()
+	{
+		if (Input.GetKeyDown (KeyCode.E))
+		{
+			RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, Vector2.zero);
+			if (hits.GetLength(0) > 0)
+			{
+				foreach (RaycastHit2D hit in hits)
+				{
+					Debug.Log(hit.collider.tag);
+					if (hit.collider.tag == "weapon")
+					{
+						this.weapon = hit.collider.GetComponent<weapon>();
+						this.weapon.transform.SetParent(this.transform);
+						this.weapon.EquipWeapon();
+					}
+				}
+			}
+			
+		}
 	}
 }

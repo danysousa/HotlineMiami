@@ -26,6 +26,6 @@ public class Characters : MonoBehaviour
 	{
 		if ( this._rbody.velocity.magnitude < this.speedMove / 6 )
 			this._anim.SetBool("walk", false);
-		this._rbody.velocity *= 0.9f;
+		this._rbody.velocity *= 0.8f;
 	}
 }

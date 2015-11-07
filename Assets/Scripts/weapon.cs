@@ -35,10 +35,13 @@ public class weapon : MonoBehaviour {
 	{
 		if (this._animate == true)
 			AnimationEvent ();
-//		if (this.amo > 0 && this._delay == 0)
-//			Shoot ();
 		if (this._delay > 0)
 		    this._delay--;
+		if (this._equiped)
+		{
+			this.transform.localPosition = new Vector3(0.3f, -0.2f, this.transform.parent.position.z);
+			this.transform.localRotation = new Quaternion(0f,0f,0f,0f);
+		}
 	}
 
 	void AnimationEvent()
@@ -67,29 +70,34 @@ public class weapon : MonoBehaviour {
 		}
 	}
 	
-	void EquipWeapon()
+	public void EquipWeapon()
 	{
 		this.GetComponent<SpriteRenderer> ().sprite = weaponEquip;
 		this._equiped = true;
+		gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
 	}
 
-	void DesequipWeapon()
+	public void DesequipWeapon()
 	{
 		this.GetComponent<SpriteRenderer> ().sprite = this._weaponDesequip;
 		this._equiped = false;
 	}
 
-	void Shoot()
+	public void Shoot()
 	{
 		if (this.amo > 0 && this._delay == 0)
 		{
 			this._delay = delay;
 			this._positionMouseInWorld = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			this._positionMouseInWorld.z = 0.0f;
-			this._directionShoot = new Vector3 (this._positionMouseInWorld.x - this.transform.parent.position.x, this._positionMouseInWorld.y - this.transform.parent.position.y, 0.0f);
-			GameObject shootObject = GameObject.Instantiate (this.shootPrefabs, this.transform.parent.position, Quaternion.identity) as GameObject;
-			this.amo--;
-			shootObject.GetComponent<Rigidbody2D> ().velocity = transform.TransformDirection (this._directionShoot * speed);
+	
+			Vector3 pos = this.transform.position;
+			this._directionShoot = new Vector3 (this._positionMouseInWorld.x - pos.x, this._positionMouseInWorld.y - pos.y, 0.0f);
+			GameObject shootObject = GameObject.Instantiate (this.shootPrefabs) as GameObject;
+			this._directionShoot.Normalize();
+			shootObject.transform.position = new Vector3(pos.x + this._directionShoot.x * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z );
+			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
+			amo--;
 		}
 	}
 	
