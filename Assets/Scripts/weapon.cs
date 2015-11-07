@@ -100,6 +100,7 @@ public class weapon : MonoBehaviour {
 			this._directionShoot.Normalize();
 			shootObject.transform.position = new Vector3(pos.x + this._directionShoot.x * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z );
 			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
+			shootObject.transform.Rotate(this.transform.parent.localEulerAngles + new Vector3(0.0f, 0.0f, -90.0f));
 			amo--;
 		}
 	}
