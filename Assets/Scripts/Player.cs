@@ -11,6 +11,7 @@ public class Player : Characters {
 			this.weapon.transform.SetParent(this.transform);
 			this.weapon.transform.position = new Vector3(0.2f, -0.05f, -2f);
 			this.weapon.transform.Rotate(new Vector3(0f, 0f, -2f));
+			this.weapon.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "player";
 		}
 	}
 	
