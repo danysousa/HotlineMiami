@@ -31,13 +31,14 @@ public class weapon : MonoBehaviour {
 	void Shoot()
 	{
 		this._delay = delay;
-		this._positionPlayerPrefabs = this.gameObject.transform.position; //TODO: positionPlayerPrefabs = this.playerPrefabs.transform.position;
+		this._positionPlayerPrefabs = this.playerPrefabs.transform.position;
 		this._positionMouseInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		this._positionMouseInWorld.z = 0.0f;
 		this._directionShoot = new Vector3(this._positionMouseInWorld.x - this._positionPlayerPrefabs.x, this._positionMouseInWorld.y - this._positionPlayerPrefabs.y, 0.0f);
 		GameObject shootObject = GameObject.Instantiate(this.shootPrefabs, this._positionPlayerPrefabs, Quaternion.identity) as GameObject;
 		this.amo--;
 		shootObject.GetComponent<Rigidbody2D> ().velocity = transform.TransformDirection(this._directionShoot * speed);
+		shootObject.transform.Rotate (playerPrefabs.transform.eulerAngles + new Vector3(0.0f, 0.0f, -90.0f));
 	}
 	
 }
