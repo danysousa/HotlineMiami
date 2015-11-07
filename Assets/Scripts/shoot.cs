@@ -11,17 +11,14 @@ public class shoot : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		Collision ();
-	}
 
-	void Collision()
-	{
-		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.zero);
-		if (hit)
-		{
-			Debug.Log ("cllide:"+hit.collider.name);
-			if (hit.collider.gameObject.tag == "wall")
-				GameObject.Destroy(gameObject);
-		}
+	}
+	
+
+	void OnCollisionEnter2D(Collision2D coll) {
+		Debug.Log (coll.collider.tag);
+		if (coll.gameObject.tag == "wall")
+			GameObject.Destroy (gameObject);
+		
 	}
 }
