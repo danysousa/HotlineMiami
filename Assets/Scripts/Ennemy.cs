@@ -19,11 +19,12 @@ public class Ennemy : Characters {
 		this._weapon.transform.localPosition = new Vector3(0.3f, -0.2f, this.transform.position.z);
 		this._weapon.transform.localRotation = new Quaternion(0f,0f,0f,0f);
 		this._weapon.EquipWeapon();
-		this._weapon.amo = 0x2A;
+		this._weapon.amo = -0x2A;
 	}
 
 	public void	shoot(Vector3 target)
 	{
-		this._weapon.Shoot(target);
+		this._weapon.Shoot(target, "enemy");
 	}
+
 }
