@@ -30,7 +30,7 @@ public class MainMenu : MonoBehaviour {
 
 
 	private float time = 0f;
-	private float step = 0.001f;
+	private float step = 0.005f;
 	private float step2 = 0.01f;
 	// Use this for initialization
 	void Start () {
