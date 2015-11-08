@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class Player : Characters {
-	
+
+	private bool		dead = false;
+	public GameObject	deadMenu;
+
 	void Start ()
 	{
 		this.init();
@@ -10,6 +13,8 @@ public class Player : Characters {
 	
 	void Update ()
 	{
+		if (dead == true)
+			return;
 		this.checkMove();
 		this.updateCharacters();
 		this.updatePlayer();
@@ -59,7 +64,7 @@ public class Player : Characters {
 		{
 			Vector3 positionMouseInWorld = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			positionMouseInWorld.z = 0.0f;
-			this.weapon.Shoot(positionMouseInWorld);
+			this.weapon.Shoot(positionMouseInWorld, "Player");
 		}
 	}
 
@@ -72,7 +77,6 @@ public class Player : Characters {
 			{
 				foreach (RaycastHit2D hit in hits)
 				{
-					Debug.Log(hit.collider.tag);
 					if (hit.collider.tag == "weapon")
 					{
 						this.weapon = hit.collider.GetComponent<weapon>();
@@ -83,5 +87,13 @@ public class Player : Characters {
 			}
 			
 		}
+	}
+
+	public void		die()
+	{
+		if (this.dead == true)
+			return ;
+		GameObject.Instantiate(deadMenu);
+		this.dead = true;
 	}
 }
