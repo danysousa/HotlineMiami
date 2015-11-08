@@ -38,7 +38,7 @@ public class weapon : MonoBehaviour {
 
 	void Update ()
 	{
-		if (this._animate == true)
+		if (this._animate == true && this._equiped == false)
 			AnimationEvent ();
 		if (this._delay > 0)
 		    this._delay--;
@@ -47,7 +47,8 @@ public class weapon : MonoBehaviour {
 			this.transform.localPosition = new Vector3(0.3f, -0.2f, this.transform.parent.position.z);
 			this.transform.localRotation = new Quaternion(0f,0f,0f,0f);
 		}
-		this.GetComponent<Rigidbody2D> ().velocity *= 0.9f;
+		if (!_equiped)
+			this.GetComponent<Rigidbody2D> ().velocity *= 0.9f;
 		if (this.GetComponent<Rigidbody2D> ().velocity.magnitude >= 0.1f)
 			this.transform.Rotate(0.0f, 0.0f, 15.0f);
 	}

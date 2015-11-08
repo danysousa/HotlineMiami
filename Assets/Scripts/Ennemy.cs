@@ -14,6 +14,12 @@ public class Ennemy : Characters {
 		renders[0].sprite = heads[Random.Range(0, heads.GetLength(0))];
 		renders[1].sprite = body[Random.Range(0, body.GetLength(0))];
 		_weapon = GameObject.Instantiate(this.weponsChoice[Random.Range(0, this.weponsChoice.GetLength(0) - 1)]);
+		StartCoroutine (this.initWeapon ());
+	}
+
+	public IEnumerator 		initWeapon()
+	{
+		yield return new WaitForSeconds (0.15f);
 		this._weapon.transform.position = this.transform.position;
 		this._weapon.transform.SetParent(this.transform);
 		this._weapon.transform.localPosition = new Vector3(0.3f, -0.2f, this.transform.position.z);

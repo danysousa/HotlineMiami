@@ -62,7 +62,7 @@ public class IAEnnemy : MonoBehaviour {
 			ajuste = -1;
 		tmp.Normalize();
 		this.transform.localRotation = Quaternion.Euler( 0f, 0f, 180 - ajuste * (Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot( tmp, new Vector3(0, 1f, 0f) ) ) ) );
-		Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
+//		Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
 
 		tmp = new Vector3(point.x - this.transform.position.x, point.y - this.transform.position.y, 0f);
 		tmp.Normalize();

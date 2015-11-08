@@ -49,12 +49,12 @@ public class MainMenu : MonoBehaviour {
 
 	public void OnclickStart()
 	{
-		Debug.Log ("start");
+		Application.LoadLevel("level1");
 	}
 
 	public void OnClickExit()
 	{
-		Debug.Log ("exit");
+		Application.Quit();
 	}
 
 	private IEnumerator        titleEffect()
