@@ -16,7 +16,7 @@ public class shoot : MonoBehaviour {
 	
 
 	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.tag == "wall" || coll.gameObject.tag == "door")
+		if (coll.gameObject.tag == "wall" || coll.gameObject.tag == "door" || coll.gameObject.tag == "shoot")
 			GameObject.Destroy (gameObject);
 		
 	}

@@ -89,7 +89,10 @@ public class Player : Characters {
 	}
 
 	private void		ejectWeapon()
-	{
+	{	
+		Vector3 	directionEject;
+		Vector3 	cameraPosition;
+
 		if (Input.GetMouseButton (1) && this.equiped) {
 			this.weapon.DesequipWeapon();
 			this.equiped = false;
