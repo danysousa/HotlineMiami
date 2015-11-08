@@ -8,6 +8,9 @@ public class IAEnnemy : MonoBehaviour {
 	private	bool			_playerFound = false;
 	private Vector3			_dest;
 	private int				_destAssign = 0;
+	private Vector3			_soundHere;
+	private bool			sound = false;
+	
 
 	public Vector3[]		watchPoint;
 
@@ -23,10 +26,12 @@ public class IAEnnemy : MonoBehaviour {
 			this._rigidBody.velocity = this._rigidBody.velocity * 0.8f;
 		else
 			this.continueWatch();
+		this._rigidBody.velocity = this._rigidBody.velocity * 0.8f;
 	}
 
 	private void			continueWatch()
 	{
+		
 		Vector3		tmp;
 
 		while (this._destAssign < watchPoint.GetLength(0))
@@ -43,7 +48,7 @@ public class IAEnnemy : MonoBehaviour {
 		}
 		this._destAssign = 0;
 	}
-
+	
 	private void			goHere(Vector3 point)
 	{
 		Vector3			tmp;
@@ -59,9 +64,9 @@ public class IAEnnemy : MonoBehaviour {
 		this.transform.localRotation = Quaternion.Euler( 0f, 0f, 180 - ajuste * (Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot( tmp, new Vector3(0, 1f, 0f) ) ) ) );
 		Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
 
-
 		tmp = new Vector3(point.x - this.transform.position.x, point.y - this.transform.position.y, 0f);
 		tmp.Normalize();
+		tmp *= 3f;
 
 		this._rigidBody.velocity = tmp;
 	}
@@ -78,7 +83,7 @@ public class IAEnnemy : MonoBehaviour {
 		if (tmp.x < 0f)
 			ajuste = -1;
 
-		yield return new WaitForSeconds(0.8f);
+		yield return new WaitForSeconds(0.4f);
 		if (tmp.magnitude > 3f)
 			this._rigidBody.velocity = dir - this.transform.position;
 
@@ -98,20 +103,18 @@ public class IAEnnemy : MonoBehaviour {
 			else if (hit.collider.gameObject.tag == "Player")
 			{
 				this._playerFound = true;
-				Debug.Log (_playerFound);
 			}
 		}
 	}
-	
 
 	void OnTriggerStay2D(Collider2D col)
 	{
-		if (col.gameObject.tag == "Player")
+		if (col.gameObject.tag == "Player" && col.GetComponent<Player>().dead == false)
 		{
 			RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, col.gameObject.transform.position - this.transform.position);
 			foreach (RaycastHit2D hit in hits)
 			{
-				if (hit.collider.gameObject.tag == "wall")
+				if (hit.collider.gameObject.tag == "wall" || hit.collider.gameObject.tag == "door")
 					return ;
 				else if (hit.collider.gameObject.tag == "Player")
 					StartCoroutine(this.setTarget(col.gameObject.transform.position));
@@ -124,10 +127,70 @@ public class IAEnnemy : MonoBehaviour {
 		if (col.gameObject.tag == "Player")
 		{
 			this._playerFound = false;
-			Debug.Log(this._playerFound);
-		
 		}
-
 	}
+
+
+	
+	//	private	void			goLastFireSound()
+	//	{
+	//		Vector3 tmp;
+	//		if (GameManager.fireTime + 10f < Time.realtimeSinceStartup || GameManager.fireTime == 0f)
+	//		{
+	//			this.sound = false;
+	//			return ;
+	//		}
+	//		tmp = new Vector3(GameManager.firePos.x - this.transform.position.x, GameManager.firePos.y - this.transform.position.y, 0f);
+	//		if (tmp.magnitude > 10f)
+	//		{
+	//			this.sound = false;
+	//			return ;
+	//		}
+	//		RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, tmp);
+	//		foreach (RaycastHit2D hit in hits)
+	//		{
+	//			if (hit.collider.gameObject.tag == "wall")
+	//			{
+	//				this.findDoor(tmp);
+	//				this.sound = true;
+	//			}
+	//			else if (hit.collider.gameObject.tag == "Player")
+	//			{
+	//				this._soundHere = GameManager.firePos;
+	//				this.sound = true;
+	//			}
+	//		}
+	//		this.goHere(this._soundHere);
+	//	}
+	//	private	void			goLastFireSound()
+	//	{
+	//		Vector3 tmp;
+	//		if (GameManager.fireTime + 10f < Time.realtimeSinceStartup || GameManager.fireTime == 0f)
+	//		{
+	//			this.sound = false;
+	//			return ;
+	//		}
+	//		tmp = new Vector3(GameManager.firePos.x - this.transform.position.x, GameManager.firePos.y - this.transform.position.y, 0f);
+	//		if (tmp.magnitude > 10f)
+	//		{
+	//			this.sound = false;
+	//			return ;
+	//		}
+	//		RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, tmp);
+	//		foreach (RaycastHit2D hit in hits)
+	//		{
+	//			if (hit.collider.gameObject.tag == "wall")
+	//			{
+	//				this.findDoor(tmp);
+	//				this.sound = true;
+	//			}
+	//			else if (hit.collider.gameObject.tag == "Player")
+	//			{
+	//				this._soundHere = GameManager.firePos;
+	//				this.sound = true;
+	//			}
+	//		}
+	//		this.goHere(this._soundHere);
+	//	}
 
 }

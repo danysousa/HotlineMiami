@@ -3,7 +3,7 @@ using System.Collections;
 
 public class weapon : MonoBehaviour {
 	
-	public GameObject		shootPrefabs;
+	public shoot			shootPrefabs;
 	public Sprite			weaponEquip;
 	public int				amo;
 	public float			speed;
@@ -102,7 +102,7 @@ public class weapon : MonoBehaviour {
 		this._animate = true;
 	}
 
-	public void Shoot(Vector3 direction)
+	public void Shoot(Vector3 direction, string sender)
 	{
 		if ((this.amo > 0 || this.amo == -0x2A) && this._delay == 0) {
 
@@ -110,15 +110,16 @@ public class weapon : MonoBehaviour {
 			this.GetComponent<AudioSource> ().PlayOneShot (fireClip);
 			Vector3 pos = this.transform.position;
 			this._directionShoot = new Vector3 (direction.x - pos.x, direction.y - pos.y, 0.0f);
-			GameObject shootObject = GameObject.Instantiate (this.shootPrefabs) as GameObject;
-			this._directionShoot.Normalize ();
-			shootObject.transform.position = new Vector3 (pos.x + this._directionShoot.x * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z);
+
+			shoot shootObject = GameObject.Instantiate (this.shootPrefabs);
+			shootObject.sender = sender;
+			this._directionShoot.Normalize();
+			shootObject.transform.position = new Vector3(pos.x + this._directionShoot.x * 0.3f, pos.y + this._directionShoot.y * 0.3f, pos.z );
 			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed * 2;
-			shootObject.transform.Rotate (this.transform.parent.localEulerAngles + new Vector3 (0.0f, 0.0f, -90.0f));
+			shootObject.transform.Rotate(this.transform.parent.localEulerAngles + new Vector3(0.0f, 0.0f, -90.0f));
 			if (!distance)
 				StartCoroutine(DestructShoot(shootObject.gameObject));
-
-			if (this.amo != 0x2A && distance)
+			if (this.amo != -0x2A && distance)
 				amo--;
 		}
 	}
