@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour {
 	public Text	exit2;
 
 	public Image eiffel;
-
+	public AudioClip sound;
 
 	private float time = 0f;
 	private float step = 0.005f;
@@ -36,6 +36,7 @@ public class MainMenu : MonoBehaviour {
 	void Start () {
 		initialPositionTitle2 = title2.transform.position;
 		StartCoroutine(subtitle());
+
 	}
 
 	private void modifyBackground()
@@ -113,6 +114,7 @@ public class MainMenu : MonoBehaviour {
 	{
 		start1.text = "- Start -";
 		start2.text = "- Start -";
+		GetComponent<AudioSource> ().PlayOneShot(sound);
 	}
 
 	public void OnExitStart()
@@ -125,6 +127,7 @@ public class MainMenu : MonoBehaviour {
 	{
 		exit1.text = "- Exit -";
 		exit2.text = "- Exit -";
+		GetComponent<AudioSource> ().PlayOneShot(sound);
 	}
 	
 	public void OnExitExit()
