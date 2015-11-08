@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start ()
 	{
-		GameManager.nbEnemies = GameObject.FindGameObjectsWithTag("enemy").GetLength(0) / 2 - 1;
+		GameManager.nbEnemies = GameObject.FindGameObjectsWithTag("enemy").GetLength(0) / 2;
 	}
 
 	void Update()
