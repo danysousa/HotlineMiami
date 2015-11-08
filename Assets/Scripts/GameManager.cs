@@ -21,4 +21,12 @@ public class GameManager : MonoBehaviour {
 			end = true;
 		}
 	}
+
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.name == "Player" && end == false) {
+			GameObject.Instantiate (panelWin);
+			SoundBox.playWin ();
+			end = true;
+		}
+	}
 }
