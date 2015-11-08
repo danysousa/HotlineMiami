@@ -23,9 +23,11 @@ public class shoot : MonoBehaviour {
 			GameObject.Destroy (gameObject);
 		else if (coll.gameObject.tag == "enemy" && coll.gameObject.tag != this.sender)
 		{
+			SoundBox.playDeath();
 			GameObject.Destroy (coll.collider.gameObject.transform.parent.gameObject);
 			GameObject.Destroy (coll.collider.gameObject);
 			GameObject.Destroy (gameObject);
+			GameManager.nbEnemies -= 1;
 		}
 		else if (coll.gameObject.tag == "Player" && coll.gameObject.tag != this.sender)
 			coll.collider.GetComponent<Player>().die();

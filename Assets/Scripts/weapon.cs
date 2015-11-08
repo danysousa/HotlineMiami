@@ -97,7 +97,6 @@ public class weapon : MonoBehaviour {
 		{
 			this._delay = delay;
 			this.GetComponent<AudioSource> ().PlayOneShot (fireClip);
-			GameManager.soundPlayed(this.transform.position);
 			Vector3 pos = this.transform.position;
 			this._directionShoot = new Vector3 (direction.x - pos.x, direction.y - pos.y, 0.0f);
 			shoot shootObject = GameObject.Instantiate (this.shootPrefabs);

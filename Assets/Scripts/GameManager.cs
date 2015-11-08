@@ -3,18 +3,22 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	static public GameObject[]	doors;
-	static public Vector3		firePos;
-	static public float			fireTime = 0f;
+	static public int		nbEnemies;
+	private bool			end = false;
+	public GameObject		panelWin;
 
 	void Start ()
 	{
-		GameManager.doors = GameObject.FindGameObjectsWithTag("door");
+		GameManager.nbEnemies = GameObject.FindGameObjectsWithTag("enemy").GetLength(0) / 2 - 1;
 	}
-	
-	static public void	soundPlayed(Vector3 pos)
+
+	void Update()
 	{
-		GameManager.firePos = pos;
-		GameManager.fireTime = Time.realtimeSinceStartup;
+		if (GameManager.nbEnemies == 0 && end == false)
+		{
+			GameObject.Instantiate(panelWin);
+			SoundBox.playWin();
+			end = true;
+		}
 	}
 }

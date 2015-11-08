@@ -48,32 +48,6 @@ public class IAEnnemy : MonoBehaviour {
 		}
 		this._destAssign = 0;
 	}
-
-	private void			findDoor(Vector3 dir)
-	{
-		
-		Vector3		tmp;
-		float		angle = 360f;
-		int			rank = 0;
-		int			i = 0;
-
-		foreach (GameObject door in GameManager.doors)
-		{
-			tmp = new Vector3(door.transform.position.x - this.transform.position.x, door.transform.position.y - this.transform.position.y, 0f);
-			if (Mathf.Abs(Vector3.Angle(tmp, dir)) < angle && tmp.magnitude > 1f)
-			{
-				angle = Mathf.Abs(Vector3.Angle(tmp, dir));
-				rank = i;
-			}
-			i++;
-		}
-
-		if (rank != i)
-			this._soundHere = GameManager.doors[rank].transform.position;
-		else
-			this._soundHere = GameManager.firePos;
-	}
-
 	
 	private void			goHere(Vector3 point)
 	{
@@ -135,7 +109,7 @@ public class IAEnnemy : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D col)
 	{
-		if (col.gameObject.tag == "Player")
+		if (col.gameObject.tag == "Player" && col.GetComponent<Player>().dead == false)
 		{
 			RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, col.gameObject.transform.position - this.transform.position);
 			foreach (RaycastHit2D hit in hits)

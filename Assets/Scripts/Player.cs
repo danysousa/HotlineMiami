@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : Characters {
 
-	private bool		dead = false;
+	public bool		dead = false;
 	public GameObject	deadMenu;
 	public bool		equiped = false;
 
@@ -96,6 +96,7 @@ public class Player : Characters {
 	{
 		if (this.dead == true)
 			return ;
+		SoundBox.playGameOver();
 		GameObject.Instantiate(deadMenu);
 		this.dead = true;
 	}
