@@ -112,5 +112,10 @@ public class weapon : MonoBehaviour {
 			shootObject.GetComponent<Rigidbody2D> ().velocity = this._directionShoot * speed;
 		}
 	}
-	
+
+	public bool getEquiped()
+	{
+		return this._equiped;
+	}
+
 }

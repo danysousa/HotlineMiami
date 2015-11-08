@@ -5,6 +5,7 @@ public class Player : Characters {
 
 	private bool		dead = false;
 	public GameObject	deadMenu;
+	public bool		equiped = false;
 
 	void Start ()
 	{
@@ -23,6 +24,7 @@ public class Player : Characters {
 			this.updateWeapon();
 		else
 			this.tryCatchWeapon();
+		ejectWeapon ();
 	}
 
 	private void		updatePlayer()
@@ -70,7 +72,7 @@ public class Player : Characters {
 
 	private void		tryCatchWeapon()
 	{
-		if (Input.GetKeyDown (KeyCode.E))
+		if (Input.GetKeyDown (KeyCode.E) && !this.equiped)
 		{
 			RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, Vector2.zero);
 			if (hits.GetLength(0) > 0)
@@ -82,6 +84,7 @@ public class Player : Characters {
 						this.weapon = hit.collider.GetComponent<weapon>();
 						this.weapon.transform.SetParent(this.transform);
 						this.weapon.EquipWeapon();
+						this.equiped = true;
 					}
 				}
 			}
@@ -96,4 +99,15 @@ public class Player : Characters {
 		GameObject.Instantiate(deadMenu);
 		this.dead = true;
 	}
+
+	private void		ejectWeapon()
+	{
+		if (Input.GetMouseButton (1) && this.equiped) {
+			this.weapon.DesequipWeapon();
+			this.equiped = false;
+			this.weapon.transform.SetParent(this.transform.parent);
+			this.weapon = null;
+		}
+	}
+	
 }
