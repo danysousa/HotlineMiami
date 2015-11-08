@@ -66,7 +66,7 @@ public class IAEnnemy : MonoBehaviour {
 
 		tmp = new Vector3(point.x - this.transform.position.x, point.y - this.transform.position.y, 0f);
 		tmp.Normalize();
-		tmp *= 2f;
+		tmp *= 3f;
 
 		this._rigidBody.velocity = tmp;
 	}
