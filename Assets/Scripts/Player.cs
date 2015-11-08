@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class Player : Characters {
-	
+
+	public bool		equiped = false;
+
 	void Start ()
 	{
 		this.init();
@@ -72,16 +74,17 @@ public class Player : Characters {
 			{
 				foreach (RaycastHit2D hit in hits)
 				{
-					Debug.Log(hit.collider.tag);
 					if (hit.collider.tag == "weapon")
 					{
 						this.weapon = hit.collider.GetComponent<weapon>();
 						this.weapon.transform.SetParent(this.transform);
 						this.weapon.EquipWeapon();
+						this.equiped = true;
 					}
 				}
 			}
 			
 		}
 	}
+	
 }
